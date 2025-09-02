@@ -81,16 +81,22 @@ const Trash = ({ className }) => (
   </svg>
 );
 
-const Info = ({ className }) => (
+const ChevronDown = ({ className }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+
+const ChevronUp = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
   </svg>
 );
 
 export default function App() {
   // Daggerheart character creation options
   const ancestryOptions = [
-    'Clank', 'Drakona', 'Dwarf', 'Elf', 'Faerie', 'Faun', 'Firbolg', 'Fungirl',
+    'Clank', 'Drakona', 'Dwarf', 'Elf', 'Faerie', 'Faun', 'Firbolg', 'Fungril',
     'Galapa', 'Giant', 'Goblin', 'Halfling', 'Human', 'Infernis', 'Katari', 'Orc', 'Ribbet', 'Simian'
   ];
 
@@ -177,6 +183,81 @@ export default function App() {
     }
   };
 
+  const ancestryDetails = {
+    'Clank': {
+      feature1: 'Purposeful Design - Choose one Experience that best aligns with your purpose. Gain a permanent +1 bonus to that Experience.',
+      feature2: 'Efficient - During a short rest, can choose a long rest move instead.'
+    },
+    'Drakona': {
+      feature1: 'Scales - When you would take Severe damage, you can mark a Stress to mark 1 fewer Hit Points.',
+      feature2: 'Elemental Breath - Choose an element for your breath, use this breath against a target or group of targets within Very Close range, treating it as an Instinct weapon that deals d8 magic damage using your Proficiency.'
+    },
+    'Dwarf': {
+      feature1: 'Thick Skin - When taking Minor damage, can mark 2 Stress instead of marking a Hit Point.',
+      feature2: 'Increased Fortitude - Can spend 3 Hope to halve incoming physical damage.'
+    },
+    'Elf': {
+      feature1: 'Quick Reactions - Can mark Stress to gain advantage on reaction rolls.',
+      feature2: 'Celestial Trance - During rest, can choose an additional downtime move.'
+    },
+    'Faerie': {
+      feature1: 'Luckbender - Once per session, after you or a willing ally within Close range makes an action roll, you can spend 3 Hope to reroll the Duality Dice.',
+      feature2: 'Wings - You can fly. While flying, you can mark a Stress after an adversary makes an attack against you to gain a +2 bonus to your Evasion against that attack.'
+    },
+    'Faun': {
+      feature1: 'Caprine Leap - You can leap anywhere within Close range as though you were using normal movement.',
+      feature2: 'Kick - When you succeed on an attack, you can mark a Stress to kick yourself off them, dealing an extra 2d6 damage and knocking back either yourself or the target.'
+    },
+    'Firbolg': {
+      feature1: 'Charge - When you succeed on an Agility Roll to move from Far or Very Far range into Melee range with one or more targets, you can mark a Stress to deal 1d12 physical damage to all targets within Melee range.',
+      feature2: 'Unshakable - When you would mark a Stress, roll a d6. On a result of 6, don\'t mark it.'
+    },
+    'Fungril': {
+      feature1: 'Fungril Network - Make an Instinct Roll (12) to use your mycelial array to speak with others of your ancestry. On a success, you can communicate across any distance.',
+      feature2: 'Death Connection - While touching a corpse that died recently, you can mark a Stress to extract one memory from the corpse related to a specific emotion or sensation of your choice.'
+    },
+    'Galapa': {
+      feature1: 'Shell - Gain a bonus to your damage thresholds equal to your Proficiency.',
+      feature2: 'Retract - Mark a Stress to retract into your shell. While in your shell, you have resistance to physical damage, you have disadvantage on action rolls, and you can\'t move.'
+    },
+    'Giant': {
+      feature1: 'Endurance - Gain an additional Hit Point slot at character creation.',
+      feature2: 'Reach - Treat any weapon, ability, spell, or other feature that has a Melee range as though it has a Very Close range instead.'
+    },
+    'Goblin': {
+      feature1: 'Surefooted - You ignore disadvantage on Agility Rolls.',
+      feature2: 'Danger Sense - Once per rest, mark a Stress to force an adversary to reroll an attack against you or an ally within Very Close range.'
+    },
+    'Halfling': {
+      feature1: 'Luckbringer - At the start of each session, everyone in your party gains a Hope.',
+      feature2: 'Internal Compass - When you roll a 1 on your Hope Die, you can reroll it.'
+    },
+    'Human': {
+      feature1: 'High Stamina - Gain an additional Stress slot at character creation.',
+      feature2: 'Adaptability - When you fail a roll that utilized one of your Experiences, you can mark a Stress to reroll.'
+    },
+    'Infernis': {
+      feature1: 'Fearless - When you roll with Fear, you can mark 2 Stress to change it into a roll with Hope instead.',
+      feature2: 'Dread Visage - You have advantage on rolls to intimidate hostile creatures.'
+    },
+    'Katari': {
+      feature1: 'Feline Instincts - When you make an Agility Roll, you can spend 2 Hope to reroll your Hope Die.',
+      feature2: 'Retracting Claws - Make an Agility Roll to scratch a target within Melee range. On a success, they become temporarily Vulnerable.'
+    },
+    'Orc': {
+      feature1: 'Sturdy - When you have 1 Hit Point remaining, attacks against you have disadvantage.',
+      feature2: 'Tusks - When you succeed on an attack against a target within Melee range, you can spend a Hope to gore the target with your tusks, dealing an extra 1d6 damage.'
+    },
+    'Ribbet': {
+      feature1: 'Amphibious - You can breathe and move naturally underwater.',
+      feature2: 'Long Tongue - You can use your long tongue to grab onto things within Close range. Mark a Stress to use your tongue as a Finesse Close weapon that deals d12 physical damage using your Proficiency.'
+    },
+    'Simian': {
+      feature1: 'Coming Soon - Ancestry features not yet available.',
+      feature2: 'Coming Soon - Ancestry features not yet available.'
+    }
+  };
+
   const createNewCharacter = (id) => ({
     id,
     info: {
@@ -236,7 +317,7 @@ export default function App() {
   const [activeCharacterId, setActiveCharacterId] = useState(savedData.activeCharacterId);
   const [nextId, setNextId] = useState(savedData.nextId);
   const [newExperience, setNewExperience] = useState('');
-  const [showClassTooltip, setShowClassTooltip] = useState(false);
+  const [showClassInfo, setShowClassInfo] = useState(false);
 
   const activeCharacter = characters.find(char => char.id === activeCharacterId);
 
@@ -544,60 +625,16 @@ export default function App() {
                 <option key={ancestry} value={ancestry}>{ancestry}</option>
               ))}
             </select>
-            <div className="relative">
-              <select
-                value={activeCharacter.info.class}
-                onChange={(e) => updateCharacterInfo('class', e.target.value)}
-                className="border rounded-lg px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"
-              >
-                <option value="">Select Class</option>
-                {classOptions.map(className => (
-                  <option key={className} value={className}>{className}</option>
-                ))}
-              </select>
-              {activeCharacter.info.class && classDetails[activeCharacter.info.class] && (
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <div className="relative">
-                    <Info
-                      className="w-4 h-4 text-purple-500 cursor-help"
-                      onMouseEnter={() => setShowClassTooltip(true)}
-                      onMouseLeave={() => setShowClassTooltip(false)}
-                    />
-                    {showClassTooltip && (
-                      <div className="absolute right-0 top-6 w-80 bg-white border border-gray-300 rounded-lg shadow-lg p-4 z-50">
-                        <div className="text-sm">
-                          <h4 className="font-bold text-purple-700 mb-2">{activeCharacter.info.class}</h4>
-                          
-                          <div className="mb-3">
-                            <span className="font-semibold text-gray-700">Domains:</span>
-                            <span className="ml-2">{classDetails[activeCharacter.info.class].domains.join(', ')}</span>
-                          </div>
-                          
-                          <div className="mb-3">
-                            <span className="font-semibold text-gray-700">Class Items:</span>
-                            <ul className="ml-2 list-disc list-inside">
-                              {classDetails[activeCharacter.info.class].classItems.map((item, index) => (
-                                <li key={index} className="text-gray-600">{item}</li>
-                              ))}
-                            </ul>
-                          </div>
-                          
-                          <div className="mb-3">
-                            <span className="font-semibold text-purple-600">Hope Feature:</span>
-                            <p className="ml-2 text-gray-600 text-xs">{classDetails[activeCharacter.info.class].hopeFeature}</p>
-                          </div>
-                          
-                          <div>
-                            <span className="font-semibold text-blue-600">Class Feature:</span>
-                            <p className="ml-2 text-gray-600 text-xs">{classDetails[activeCharacter.info.class].classFeature}</p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
+            <select
+              value={activeCharacter.info.class}
+              onChange={(e) => updateCharacterInfo('class', e.target.value)}
+              className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="">Select Class</option>
+              {classOptions.map(className => (
+                <option key={className} value={className}>{className}</option>
+              ))}
+            </select>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -623,6 +660,91 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        {((activeCharacter.info.class && classDetails[activeCharacter.info.class]) || (activeCharacter.info.ancestry && ancestryDetails[activeCharacter.info.ancestry])) && (
+          <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-600">
+                {showClassInfo ? 'Character Information' : 'Character Information'}
+              </h2>
+              <button
+                onClick={() => setShowClassInfo(!showClassInfo)}
+                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {showClassInfo ? (
+                  <ChevronUp className="w-5 h-5" />
+                ) : (
+                  <ChevronDown className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+            
+            {showClassInfo && (
+              <div className="space-y-6">
+                {activeCharacter.info.class && classDetails[activeCharacter.info.class] && (
+                  <div>
+                    <h3 className="text-xl font-bold text-purple-700 mb-4">{activeCharacter.info.class}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-gray-700 mb-2">Domains</h4>
+                          <div className="flex gap-2">
+                            {classDetails[activeCharacter.info.class].domains.map((domain, index) => (
+                              <span key={index} className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                                {domain}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-gray-700 mb-2">Class Items</h4>
+                          <ul className="space-y-1">
+                            {classDetails[activeCharacter.info.class].classItems.map((item, index) => (
+                              <li key={index} className="flex items-center text-gray-600">
+                                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-purple-600 mb-2">Hope Feature</h4>
+                          <p className="text-gray-600 text-sm">{classDetails[activeCharacter.info.class].hopeFeature}</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold text-blue-600 mb-2">Class Feature</h4>
+                          <p className="text-gray-600 text-sm">{classDetails[activeCharacter.info.class].classFeature}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {activeCharacter.info.ancestry && ancestryDetails[activeCharacter.info.ancestry] && (
+                  <div>
+                    <h3 className="text-xl font-bold text-green-700 mb-4">{activeCharacter.info.ancestry}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold text-green-600 mb-2">Ancestry Feature 1</h4>
+                        <p className="text-gray-600 text-sm">{ancestryDetails[activeCharacter.info.ancestry].feature1}</p>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold text-green-600 mb-2">Ancestry Feature 2</h4>
+                        <p className="text-gray-600 text-sm">{ancestryDetails[activeCharacter.info.ancestry].feature2}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <StatCard
