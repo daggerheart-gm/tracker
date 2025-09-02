@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // Heart, Shield, Zap, Brain, Eye, AlertTriangle, Plus, Minus, X, Users icons as SVG components
@@ -76,6 +76,20 @@ const Upload = ({ className }) => (
 );
 
 export default function App() {
+  // Daggerheart character creation options
+  const ancestryOptions = [
+    'Clank', 'Drakona', 'Dwarf', 'Elf', 'Faerie', 'Faun', 'Firbolg', 'Fungirl',
+    'Galapa', 'Giant', 'Goblin', 'Halfling', 'Human', 'Infernis', 'Katari', 'Orc', 'Ribbet', 'Simian'
+  ];
+
+  const classOptions = [
+    'Bard', 'Druid', 'Guardian', 'Ranger', 'Rogue', 'Seraph', 'Sorcerer', 'Warrior', 'Wizard'
+  ];
+
+  const communityOptions = [
+    'Highborne', 'Loreborne', 'Orderborne', 'Ridgeborne', 'Seaborne', 'Slyborne', 'Underborne', 'Wanderborne', 'Wildborne'
+  ];
+
   const createNewCharacter = (id) => ({
     id,
     info: {
@@ -89,6 +103,7 @@ export default function App() {
       hope: 2,
       fear: 0,
       stress: 0,
+      maxStress: 6,
       hitPoints: 20,
       maxHitPoints: 20,
       armorScore: 0,
@@ -99,12 +114,52 @@ export default function App() {
     }
   });
 
-  const [characters, setCharacters] = useState([createNewCharacter(1)]);
-  const [activeCharacterId, setActiveCharacterId] = useState(1);
-  const [nextId, setNextId] = useState(2);
+  // Load data from localStorage on app initialization
+  const loadFromStorage = () => {
+    try {
+      const saved = localStorage.getItem('daggerheart-characters');
+      if (saved) {
+        const data = JSON.parse(saved);
+        return {
+          characters: data.characters || [createNewCharacter(1)],
+          activeCharacterId: data.activeCharacterId || 1,
+          nextId: data.nextId || 2
+        };
+      }
+    } catch (error) {
+      console.error('Error loading from localStorage:', error);
+    }
+    return {
+      characters: [createNewCharacter(1)],
+      activeCharacterId: 1,
+      nextId: 2
+    };
+  };
+
+  const savedData = loadFromStorage();
+  const [characters, setCharacters] = useState(savedData.characters);
+  const [activeCharacterId, setActiveCharacterId] = useState(savedData.activeCharacterId);
+  const [nextId, setNextId] = useState(savedData.nextId);
   const [newExperience, setNewExperience] = useState('');
 
   const activeCharacter = characters.find(char => char.id === activeCharacterId);
+
+  // Save data to localStorage whenever state changes
+  useEffect(() => {
+    const dataToSave = {
+      characters,
+      activeCharacterId,
+      nextId,
+      version: '1.0',
+      timestamp: new Date().toISOString()
+    };
+    
+    try {
+      localStorage.setItem('daggerheart-characters', JSON.stringify(dataToSave));
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
+    }
+  }, [characters, activeCharacterId, nextId]);
 
   const addNewCharacter = () => {
     const newChar = createNewCharacter(nextId);
@@ -143,6 +198,8 @@ export default function App() {
         finalValue = Math.min(6, newValue);
       } else if (statName === 'fear') {
         finalValue = Math.min(6, newValue);
+      } else if (statName === 'stress') {
+        finalValue = Math.min(char.stats.maxStress, newValue);
       } else if (statName === 'hitPoints') {
         finalValue = Math.min(char.stats.maxHitPoints, newValue);
       }
@@ -320,27 +377,6 @@ export default function App() {
               <Plus className="w-4 h-4" />
               <span>New Character</span>
             </button>
-            <button
-              onClick={saveData}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-1"
-            >
-              <Save className="w-4 h-4" />
-              <span>Save</span>
-            </button>
-            <button
-              onClick={() => document.getElementById('loadFile').click()}
-              className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-1"
-            >
-              <Upload className="w-4 h-4" />
-              <span>Load</span>
-            </button>
-            <input
-              id="loadFile"
-              type="file"
-              accept=".json"
-              onChange={loadData}
-              style={{ display: 'none' }}
-            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -351,30 +387,39 @@ export default function App() {
               onChange={(e) => updateCharacterInfo('name', e.target.value)}
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
-            <input
-              type="text"
-              placeholder="Ancestry"
+            <select
               value={activeCharacter.info.ancestry}
               onChange={(e) => updateCharacterInfo('ancestry', e.target.value)}
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <input
-              type="text"
-              placeholder="Class"
+            >
+              <option value="">Select Ancestry</option>
+              {ancestryOptions.map(ancestry => (
+                <option key={ancestry} value={ancestry}>{ancestry}</option>
+              ))}
+            </select>
+            <select
               value={activeCharacter.info.class}
               onChange={(e) => updateCharacterInfo('class', e.target.value)}
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
+            >
+              <option value="">Select Class</option>
+              {classOptions.map(className => (
+                <option key={className} value={className}>{className}</option>
+              ))}
+            </select>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Community"
+            <select
               value={activeCharacter.info.community}
               onChange={(e) => updateCharacterInfo('community', e.target.value)}
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
+            >
+              <option value="">Select Community</option>
+              {communityOptions.map(community => (
+                <option key={community} value={community}>{community}</option>
+              ))}
+            </select>
             <div className="flex items-center space-x-2">
               <label className="font-semibold text-gray-700">Level:</label>
               <input
@@ -410,7 +455,63 @@ export default function App() {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-orange-500 mb-6">
+          <div className="flex items-center space-x-2 mb-4">
+            <Eye className="w-5 h-5" />
+            <h3 className="font-semibold text-gray-700">Damage Thresholds</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Major Threshold:</span>
+              <input
+                type="number"
+                value={activeCharacter.stats.majorThreshold}
+                onChange={(e) => setStat('majorThreshold', e.target.value)}
+                className="w-16 text-center border rounded px-1 py-0.5"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Severe Threshold:</span>
+              <input
+                type="number"
+                value={activeCharacter.stats.severeThreshold}
+                onChange={(e) => setStat('severeThreshold', e.target.value)}
+                className="w-16 text-center border rounded px-1 py-0.5"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Max Hit Points:</span>
+              <input
+                type="number"
+                value={activeCharacter.stats.maxHitPoints}
+                onChange={(e) => setStat('maxHitPoints', e.target.value)}
+                className="w-16 text-center border rounded px-1 py-0.5"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <button
+              onClick={() => updateStat('hitPoints', -1)}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+            >
+              Minor Damage (+1)
+            </button>
+            <button
+              onClick={() => updateStat('hitPoints', -2)}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+            >
+              Major Damage (+2)
+            </button>
+            <button
+              onClick={() => updateStat('hitPoints', -3)}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+            >
+              Severe Damage (+3)
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <StatCard
             title="Hit Points"
             value={activeCharacter.stats.hitPoints}
@@ -421,30 +522,63 @@ export default function App() {
             onDecrease={() => updateStat('hitPoints', -1)}
           />
           
-          <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
-            <div className="flex items-center space-x-2 mb-2">
-              <Heart className="w-5 h-5" />
-              <h3 className="font-semibold text-gray-700">Max HP</h3>
+          <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-yellow-500">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2">
+                <Brain className="w-5 h-5" />
+                <h3 className="font-semibold text-gray-700">Stress</h3>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button 
+                  onClick={() => updateStat('stress', -1)}
+                  className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.stress}/{activeCharacter.stats.maxStress}</span>
+                <button 
+                  onClick={() => updateStat('stress', 1)}
+                  className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-            <input
-              type="number"
-              value={activeCharacter.stats.maxHitPoints}
-              onChange={(e) => setStat('maxHitPoints', e.target.value)}
-              className="w-full text-center border rounded px-2 py-1 text-xl font-bold"
-            />
+            <div className="flex flex-wrap gap-2 items-center">
+              <div className="flex gap-2 flex-wrap">
+                {Array.from({ length: activeCharacter.stats.maxStress }, (_, i) => i + 1).map(index => (
+                  <div
+                    key={index}
+                    onClick={() => updateStat('stress', index <= activeCharacter.stats.stress ? -1 : 1)}
+                    className={`w-8 h-8 border-2 rounded cursor-pointer transition-all ${
+                      index <= activeCharacter.stats.stress
+                        ? 'bg-yellow-500 border-yellow-600'
+                        : 'bg-white border-gray-300 hover:border-yellow-400'
+                    }`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setStat('maxStress', activeCharacter.stats.maxStress + 1)}
+                className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors ml-2"
+                title="Add stress marker"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+              {activeCharacter.stats.maxStress > 6 && (
+                <button
+                  onClick={() => setStat('maxStress', Math.max(6, activeCharacter.stats.maxStress - 1))}
+                  className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                  title="Remove stress marker"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
-          
-          <StatCard
-            title="Stress"
-            value={activeCharacter.stats.stress}
-            icon={Brain}
-            color="border-yellow-500"
-            onIncrease={() => updateStat('stress', 1)}
-            onDecrease={() => updateStat('stress', -1)}
-          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
             <div className="flex items-center space-x-2 mb-2">
               <Shield className="w-5 h-5" />
@@ -469,33 +603,6 @@ export default function App() {
               onChange={(e) => setStat('evasion', e.target.value)}
               className="w-full text-center border rounded px-2 py-1 text-xl font-bold"
             />
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-orange-500">
-            <div className="flex items-center space-x-2 mb-2">
-              <Eye className="w-5 h-5" />
-              <h3 className="font-semibold text-gray-700">Thresholds</h3>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Major:</span>
-                <input
-                  type="number"
-                  value={activeCharacter.stats.majorThreshold}
-                  onChange={(e) => setStat('majorThreshold', e.target.value)}
-                  className="w-16 text-center border rounded px-1 py-0.5"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Severe:</span>
-                <input
-                  type="number"
-                  value={activeCharacter.stats.severeThreshold}
-                  onChange={(e) => setStat('severeThreshold', e.target.value)}
-                  className="w-16 text-center border rounded px-1 py-0.5"
-                />
-              </div>
-            </div>
           </div>
         </div>
 
@@ -534,6 +641,32 @@ export default function App() {
             {activeCharacter.stats.experiences.length === 0 && (
               <p className="text-gray-500 text-center py-4">No experiences yet. Add some as you play!</p>
             )}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-4 mt-6">
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={saveData}
+              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"
+            >
+              <Save className="w-5 h-5" />
+              <span>Export Data</span>
+            </button>
+            <button
+              onClick={() => document.getElementById('loadFile').click()}
+              className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-2"
+            >
+              <Upload className="w-5 h-5" />
+              <span>Import Data</span>
+            </button>
+            <input
+              id="loadFile"
+              type="file"
+              accept=".json"
+              onChange={loadData}
+              style={{ display: 'none' }}
+            />
           </div>
         </div>
       </div>
