@@ -15,26 +15,9 @@ A web-based character tracker for the Daggerheart RPG system. Track multiple cha
 
 ### Option 1: GitHub Pages (Recommended)
 
-1. **Create a new repository on GitHub**:
-   - Go to GitHub and create a new repository
-   - Name it something like `daggerheart-tracker`
-   - Make it public
-   - Don't initialize with README (we'll add our own)
+1. **Fork this repository**
 
-2. **Clone and setup locally**:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/daggerheart-tracker.git
-   cd daggerheart-tracker
-   
-   # Copy all the files from this repository structure
-   # (See file contents below)
-   
-   git add .
-   git commit -m "Initial commit: Daggerheart character tracker"
-   git push origin main
-   ```
-
-3. **Enable GitHub Pages**:
+2. **Enable GitHub Pages**:
    - Go to your repository settings
    - Scroll to "Pages" section
    - Source: Deploy from a branch
@@ -42,7 +25,7 @@ A web-based character tracker for the Daggerheart RPG system. Track multiple cha
    - Folder: `/ (root)`
    - Click Save
 
-4. **Your app will be available at**: `https://YOUR_USERNAME.github.io/daggerheart-tracker`
+3. **Your app will be available at**: `https://YOUR_USERNAME.github.io/daggerheart-tracker
 
 ### Option 2: Local Development
 
