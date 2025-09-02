@@ -2,7 +2,7 @@
   "name": "daggerheart-tracker",
   "version": "1.0.0",
   "description": "A character tracker for the Daggerheart RPG system",
-  "homepage": "https://daggerheart-gm.github.io/daggerheart-tracker",
+  "homepage": "https://daggerheart-gm.github.io/tracker",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
