@@ -102,6 +102,18 @@ export default function App() {
     { name: 'Vulnerable', description: 'All rolls targeting you have advantage' }
   ];
 
+  const classStats = {
+    'Bard': { hitPoints: 5, evasion: 10 },
+    'Druid': { hitPoints: 6, evasion: 10 },
+    'Guardian': { hitPoints: 7, evasion: 9 },
+    'Ranger': { hitPoints: 6, evasion: 12 },
+    'Rogue': { hitPoints: 6, evasion: 12 },
+    'Seraph': { hitPoints: 7, evasion: 9 },
+    'Sorcerer': { hitPoints: 6, evasion: 10 },
+    'Warrior': { hitPoints: 6, evasion: 11 },
+    'Wizard': { hitPoints: 5, evasion: 11 }
+  };
+
   const createNewCharacter = (id) => ({
     id,
     info: {
@@ -205,6 +217,27 @@ export default function App() {
         ? { ...char, info: { ...char.info, [field]: value } }
         : char
     ));
+
+    if (field === 'class' && value && classStats[value]) {
+      const confirmed = window.confirm('Do you want to prefill default values for this class? This will set Max Hit Points and Evasion to the class defaults.');
+      
+      if (confirmed) {
+        const stats = classStats[value];
+        setCharacters(prev => prev.map(char => 
+          char.id === activeCharacterId 
+            ? { 
+                ...char, 
+                stats: { 
+                  ...char.stats, 
+                  maxHitPoints: stats.hitPoints,
+                  hitPoints: Math.min(char.stats.hitPoints, stats.hitPoints),
+                  evasion: stats.evasion
+                }
+              }
+            : char
+        ));
+      }
+    }
   };
 
   const updateStat = (statName, change) => {
