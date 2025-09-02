@@ -712,19 +712,7 @@ export default function App() {
                   <h3 className="font-semibold text-gray-700">Hope</h3>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button 
-                    onClick={() => updateStat('hope', -1)}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
                   <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.hope}/6</span>
-                  <button 
-                    onClick={() => updateStat('hope', 1)}
-                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 items-center">
@@ -751,19 +739,7 @@ export default function App() {
                   <h3 className="font-semibold text-gray-700">Armor</h3>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button 
-                    onClick={() => updateStat('armorSlots', -1)}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
                   <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.armorSlots}/{activeCharacter.stats.armorScore}</span>
-                  <button 
-                    onClick={() => updateStat('armorSlots', 1)}
-                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 items-center">
@@ -794,19 +770,7 @@ export default function App() {
                   <h3 className="font-semibold text-gray-700">Hit Points</h3>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button 
-                    onClick={() => updateStat('hitPoints', -1)}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
                   <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.hitPoints}/{activeCharacter.stats.maxHitPoints}</span>
-                  <button 
-                    onClick={() => updateStat('hitPoints', 1)}
-                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 items-center">
@@ -829,22 +793,6 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <button
-                  onClick={() => setStat('maxHitPoints', activeCharacter.stats.maxHitPoints + 1)}
-                  className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors ml-2"
-                  title="Add hit point slot"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-                {activeCharacter.stats.maxHitPoints > 1 && (
-                  <button
-                    onClick={() => setStat('maxHitPoints', Math.max(1, activeCharacter.stats.maxHitPoints - 1))}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                    title="Remove hit point slot"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                )}
               </div>
             </div>
             
@@ -855,19 +803,7 @@ export default function App() {
                   <h3 className="font-semibold text-gray-700">Stress</h3>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button 
-                    onClick={() => updateStat('stress', -1)}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
                   <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.stress}/{activeCharacter.stats.maxStress}</span>
-                  <button 
-                    onClick={() => updateStat('stress', 1)}
-                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 items-center">
@@ -884,22 +820,6 @@ export default function App() {
                     />
                   ))}
                 </div>
-                <button
-                  onClick={() => setStat('maxStress', activeCharacter.stats.maxStress + 1)}
-                  className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors ml-2"
-                  title="Add stress marker"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-                {activeCharacter.stats.maxStress > 6 && (
-                  <button
-                    onClick={() => setStat('maxStress', Math.max(6, activeCharacter.stats.maxStress - 1))}
-                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                    title="Remove stress marker"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                )}
               </div>
             </div>
           </div>
