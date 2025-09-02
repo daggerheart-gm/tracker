@@ -1,35 +1,35 @@
 export const ancestryOptions = [
-  'Clank', 'Daemon', 'Drakona', 'Dwarf', 'Elf', 'Faerie', 'Firbolg', 'Fungril', 'Galapa', 'Giant', 'Goblin', 'Halfling', 'Human', 'Infernis', 'Katari', 'Orc', 'Ribbet', 'Simian'
+  'Clank', 'Drakona', 'Dwarf', 'Elf', 'Faerie', 'Faun', 'Firbolg', 'Fungril', 'Galapa', 'Giant', 'Goblin', 'Halfling', 'Human', 'Infernis', 'Katari', 'Orc', 'Ribbet', 'Simiah'
 ];
 
 export const ancestryDetails = {
   'Clank': {
-    feature1: 'Construct - You don\'t need to eat, sleep, or breathe. You can\'t be affected by diseases, and you have resistance to poison damage.',
-    feature2: 'Augmented - You have one augmentation installed at character creation. Work with your GM to determine what this augmentation does.'
+    feature1: 'Purposeful Design - Decide who made you and for what purpose. At character creation, choose one of your Experiences that best aligns with this purpose and gain a permanent +1 bonus to it.',
+    feature2: 'Efficient - When you take a short rest, you can choose a long rest move instead of a short rest move.'
   },
-  'Daemon': {
-    feature1: 'Shapechanger - You can change your appearance at will, but your size and basic shape remain the same.',
-    feature2: 'Detect Magic - You can sense the presence of magic within 30 feet of you as an action.'
+  'Faun': {
+    feature1: 'Caprine Leap - You can leap anywhere within Close range as though you were using normal movement, allowing you to vault obstacles, jump across gaps, or scale barriers with ease.',
+    feature2: 'Kick - When you succeed on an attack against a target within Melee range, you can mark a Stress to kick yourself off them, dealing an extra 2d6 damage and knocking back either yourself or the target to Very Close range.'
   },
   'Drakona': {
-    feature1: 'Dragon Heritage - Choose a dragon type. You have resistance to that damage type.',
-    feature2: 'Breath Weapon - You can use your action to exhale destructive energy in a 15-foot cone. Each creature in that area must make a Dexterity saving throw, taking 2d6 damage on a failed save.'
+    feature1: 'Scales - Your scales act as natural protection. When you would take Severe damage, you can mark a Stress to mark 1 fewer Hit Points.',
+    feature2: 'Elemental Breath - Choose an element for your breath (such as electricity, fire, or ice). You can use this breath against a target or group of targets within Very Close range, treating it as an Instinct weapon that deals d8 magic damage using your Proficiency.'
   },
   'Dwarf': {
-    feature1: 'Stone Sense - You have advantage on rolls to detect stonework, traps, and structural weaknesses.',
-    feature2: 'Resilience - You have advantage on saving throws against poison, and you have resistance against poison damage.'
+    feature1: 'Thick Skin - When you take Minor damage, you can mark 2 Stress instead of marking a Hit Point.',
+    feature2: 'Increased Fortitude - Spend 3 Hope to halve incoming physical damage.'
   },
   'Elf': {
-    feature1: 'Keen Senses - You have advantage on Awareness rolls that rely on hearing or sight.',
-    feature2: 'Trance - You don\'t need to sleep. Instead, you meditate deeply for 4 hours a day.'
+    feature1: 'Quick Reactions - Mark a Stress to gain advantage on a reaction roll.',
+    feature2: 'Celestial Trance - During a rest, you can drop into a trance to choose an additional downtime move.'
   },
   'Faerie': {
-    feature1: 'Fae Magic - You know one cantrip from the Arcana domain.',
-    feature2: 'Nimble - You can move through the space of any creature that is of a size larger than yours.'
+    feature1: 'Luckbender - Once per session, after you or a willing ally within Close range makes an action roll, you can spend 3 Hope to reroll the Duality Dice.',
+    feature2: 'Wings - You can fly. While flying, you can mark a Stress after an adversary makes an attack against you to gain a +2 bonus to your Evasion against that attack.'
   },
   'Firbolg': {
-    feature1: 'Giant Heritage - You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift.',
-    feature2: 'Nature Magic - You can cast Detect Magic and Disguise Self once per long rest each.'
+    feature1: 'Charge - When you succeed on an Agility Roll to move from Far or Very Far range into Melee range with one or more targets, you can mark a Stress to deal 1d12 physical damage to all targets within Melee range.',
+    feature2: 'Unshakable - When you would mark a Stress, roll a d6. On a result of 6, don\'t mark it.'
   },
   'Fungril': {
     feature1: 'Fungril Network - Make an Instinct Roll (12) to use your mycelial array to speak with others of your ancestry. On a success, you can communicate across any distance.',
@@ -71,8 +71,8 @@ export const ancestryDetails = {
     feature1: 'Amphibious - You can breathe and move naturally underwater.',
     feature2: 'Long Tongue - You can use your long tongue to grab onto things within Close range. Mark a Stress to use your tongue as a Finesse Close weapon that deals d12 physical damage using your Proficiency.'
   },
-  'Simian': {
-    feature1: 'Coming Soon - Ancestry features not yet available.',
-    feature2: 'Coming Soon - Ancestry features not yet available.'
+  'Simiah': {
+    feature1: 'Natural Climber - You have advantage on Agility Rolls that involve balancing and climbing.',
+    feature2: 'Nimble - Gain a permanent +1 bonus to your Evasion at character creation.'
   }
 };
