@@ -294,7 +294,7 @@ export default function App() {
                 stats: { 
                   ...char.stats, 
                   maxHitPoints: stats.hitPoints,
-                  hitPoints: Math.min(char.stats.hitPoints, stats.hitPoints),
+                  hitPoints: stats.hitPoints,
                   evasion: stats.evasion
                 }
               }
