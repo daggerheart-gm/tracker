@@ -75,6 +75,12 @@ const Upload = ({ className }) => (
   </svg>
 );
 
+const Trash = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+  </svg>
+);
+
 export default function App() {
   // Daggerheart character creation options
   const ancestryOptions = [
@@ -285,6 +291,20 @@ export default function App() {
     reader.readAsText(file);
     
     event.target.value = '';
+  };
+
+  const resetAllData = () => {
+    const confirmed = window.confirm('Are you sure you want to reset the tracker? This will delete all character data and cannot be undone.');
+    
+    if (confirmed) {
+      localStorage.removeItem('daggerheart-characters');
+      
+      const newCharacter = createNewCharacter(1);
+      setCharacters([newCharacter]);
+      setActiveCharacterId(1);
+      setNextId(2);
+      setNewExperience('');
+    }
   };
 
   const StatCard = ({ title, value, maxValue, icon: Icon, color, onIncrease, onDecrease, onDirectChange }) => (
@@ -659,6 +679,13 @@ export default function App() {
             >
               <Upload className="w-5 h-5" />
               <span>Import Data</span>
+            </button>
+            <button
+              onClick={resetAllData}
+              className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"
+            >
+              <Trash className="w-5 h-5" />
+              <span>Reset Tracker</span>
             </button>
             <input
               id="loadFile"
