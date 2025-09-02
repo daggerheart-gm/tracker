@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // Heart, Shield, Zap, Brain, Eye, AlertTriangle, Plus, Minus, X, Users icons as SVG components
-const Heart = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+const Heart = ({ className, fill = "currentColor", stroke = "currentColor" }) => (
+  <svg className={className} fill={fill} stroke={stroke} viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
   </svg>
 );
@@ -30,12 +30,6 @@ const Eye = ({ className }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-  </svg>
-);
-
-const AlertTriangle = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
   </svg>
 );
 
@@ -107,6 +101,376 @@ export default function App() {
   const communityOptions = [
     'Highborne', 'Loreborne', 'Orderborne', 'Ridgeborne', 'Seaborne', 'Slyborne', 'Underborne', 'Wanderborne', 'Wildborne'
   ];
+
+  const armorDetails = {
+    'None': {
+      armorScore: 0,
+      majorThreshold: 0,
+      severeThreshold: 0,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'No armor worn',
+      tier: 0
+    },
+    // TIER 1
+    'Gambeson Armor (Tier 1)': {
+      armorScore: 3,
+      majorThreshold: 5,
+      severeThreshold: 11,
+      evasionModifier: 1,
+      agilityModifier: 0,
+      feature: 'Flexible: +1 to Evasion',
+      tier: 1
+    },
+    'Leather Armor (Tier 1)': {
+      armorScore: 3,
+      majorThreshold: 6,
+      severeThreshold: 13,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: '—',
+      tier: 1
+    },
+    'Chainmail Armor (Tier 1)': {
+      armorScore: 4,
+      majorThreshold: 7,
+      severeThreshold: 15,
+      evasionModifier: -1,
+      agilityModifier: 0,
+      feature: 'Heavy: -1 to Evasion',
+      tier: 1
+    },
+    'Full Plate Armor (Tier 1)': {
+      armorScore: 4,
+      majorThreshold: 8,
+      severeThreshold: 17,
+      evasionModifier: -2,
+      agilityModifier: -1,
+      feature: 'Very Heavy: -2 to Evasion; -1 to Agility',
+      tier: 1
+    },
+    // TIER 2
+    'Improved Gambeson Armor (Tier 2)': {
+      armorScore: 4,
+      majorThreshold: 7,
+      severeThreshold: 16,
+      evasionModifier: 1,
+      agilityModifier: 0,
+      feature: 'Flexible: +1 to Evasion',
+      tier: 2
+    },
+    'Improved Leather Armor (Tier 2)': {
+      armorScore: 4,
+      majorThreshold: 9,
+      severeThreshold: 20,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: '—',
+      tier: 2
+    },
+    'Improved Chainmail Armor (Tier 2)': {
+      armorScore: 5,
+      majorThreshold: 11,
+      severeThreshold: 24,
+      evasionModifier: -1,
+      agilityModifier: 0,
+      feature: 'Heavy: -1 to Evasion',
+      tier: 2
+    },
+    'Improved Full Plate Armor (Tier 2)': {
+      armorScore: 5,
+      majorThreshold: 13,
+      severeThreshold: 28,
+      evasionModifier: -2,
+      agilityModifier: -1,
+      feature: 'Very Heavy: -2 to Evasion; -1 to Agility',
+      tier: 2
+    },
+    'Elundrian Chain Armor (Tier 2)': {
+      armorScore: 4,
+      majorThreshold: 9,
+      severeThreshold: 21,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Warded: Reduce incoming magic damage by Armor Score',
+      tier: 2
+    },
+    'Harrowbone Armor (Tier 2)': {
+      armorScore: 4,
+      majorThreshold: 9,
+      severeThreshold: 21,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Resilient: Potential damage reduction on last Armor Slot',
+      tier: 2
+    },
+    'Irontree Breastplate Armor (Tier 2)': {
+      armorScore: 4,
+      majorThreshold: 9,
+      severeThreshold: 20,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Reinforced: Increase damage thresholds when last Armor Slot is marked',
+      tier: 2
+    },
+    'Runetan Floating Armor (Tier 2)': {
+      armorScore: 4,
+      majorThreshold: 9,
+      severeThreshold: 20,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Shifting: Mark Armor Slot to give attack disadvantage',
+      tier: 2
+    },
+    'Tyris Soft Armor (Tier 2)': {
+      armorScore: 5,
+      majorThreshold: 8,
+      severeThreshold: 18,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Quiet: +2 to moving silently',
+      tier: 2
+    },
+    'Rosewild Armor (Tier 2)': {
+      armorScore: 5,
+      majorThreshold: 11,
+      severeThreshold: 23,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Hopeful: Can mark Armor Slot instead of spending Hope',
+      tier: 2
+    },
+    // TIER 3
+    'Advanced Gambeson Armor (Tier 3)': {
+      armorScore: 5,
+      majorThreshold: 9,
+      severeThreshold: 23,
+      evasionModifier: 1,
+      agilityModifier: 0,
+      feature: 'Flexible: +1 to Evasion',
+      tier: 3
+    },
+    'Advanced Leather Armor (Tier 3)': {
+      armorScore: 5,
+      majorThreshold: 11,
+      severeThreshold: 27,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: '—',
+      tier: 3
+    },
+    'Advanced Chainmail Armor (Tier 3)': {
+      armorScore: 6,
+      majorThreshold: 13,
+      severeThreshold: 31,
+      evasionModifier: -1,
+      agilityModifier: 0,
+      feature: 'Heavy: -1 to Evasion',
+      tier: 3
+    },
+    'Advanced Full Plate Armor (Tier 3)': {
+      armorScore: 6,
+      majorThreshold: 15,
+      severeThreshold: 35,
+      evasionModifier: -2,
+      agilityModifier: -1,
+      feature: 'Very Heavy: -2 to Evasion; -1 to Agility',
+      tier: 3
+    },
+    'Bellamie Fine Armor (Tier 3)': {
+      armorScore: 5,
+      majorThreshold: 11,
+      severeThreshold: 27,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Gilded: +1 to Presence',
+      tier: 3
+    },
+    'Dragonscale Armor (Tier 3)': {
+      armorScore: 5,
+      majorThreshold: 11,
+      severeThreshold: 27,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Impenetrable: Once per short rest, when you would mark your last Hit Point, you can instead mark a Stress',
+      tier: 3
+    },
+    'Spiked Plate Armor (Tier 3)': {
+      armorScore: 5,
+      majorThreshold: 10,
+      severeThreshold: 25,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Sharp: On a successful attack against a target within Melee range, add a d4 to the damage roll',
+      tier: 3
+    },
+    'Bladefare Armor (Tier 3)': {
+      armorScore: 6,
+      majorThreshold: 16,
+      severeThreshold: 39,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Physical: You can\'t mark an Armor Slot to reduce magic damage',
+      tier: 3
+    },
+    'Monett\'s Cloak (Tier 3)': {
+      armorScore: 6,
+      majorThreshold: 16,
+      severeThreshold: 39,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Magic: You can\'t mark an Armor Slot to reduce physical damage',
+      tier: 3
+    },
+    'Runes of Fortification (Tier 3)': {
+      armorScore: 6,
+      majorThreshold: 17,
+      severeThreshold: 43,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Painful: Each time you mark an Armor Slot, you must mark a Stress',
+      tier: 3
+    },
+    // TIER 4
+    'Legendary Gambeson Armor (Tier 4)': {
+      armorScore: 6,
+      majorThreshold: 11,
+      severeThreshold: 32,
+      evasionModifier: 1,
+      agilityModifier: 0,
+      feature: 'Flexible: +1 to Evasion',
+      tier: 4
+    },
+    'Legendary Leather Armor (Tier 4)': {
+      armorScore: 6,
+      majorThreshold: 13,
+      severeThreshold: 36,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: '—',
+      tier: 4
+    },
+    'Legendary Chainmail Armor (Tier 4)': {
+      armorScore: 7,
+      majorThreshold: 15,
+      severeThreshold: 40,
+      evasionModifier: -1,
+      agilityModifier: 0,
+      feature: 'Heavy: -1 to Evasion',
+      tier: 4
+    },
+    'Legendary Full Plate Armor (Tier 4)': {
+      armorScore: 7,
+      majorThreshold: 17,
+      severeThreshold: 44,
+      evasionModifier: -2,
+      agilityModifier: -1,
+      feature: 'Very Heavy: -2 to Evasion; -1 to Agility',
+      tier: 4
+    },
+    'Dunamis Silkchain (Tier 4)': {
+      armorScore: 7,
+      majorThreshold: 13,
+      severeThreshold: 36,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Timeslowing: Mark an Armor Slot to roll a d4 and add its result as a bonus to your Evasion against an incoming attack',
+      tier: 4
+    },
+    'Channeling Armor (Tier 4)': {
+      armorScore: 5,
+      majorThreshold: 13,
+      severeThreshold: 36,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Channeling: +1 to Spellcast Rolls',
+      tier: 4
+    },
+    'Emberwoven Armor (Tier 4)': {
+      armorScore: 6,
+      majorThreshold: 13,
+      severeThreshold: 36,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Burning: When an adversary attacks you within Melee range, they mark a Stress',
+      tier: 4
+    },
+    'Full Fortified Armor (Tier 4)': {
+      armorScore: 4,
+      majorThreshold: 15,
+      severeThreshold: 40,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Fortified: When you mark an Armor Slot, you reduce the severity of an attack by two thresholds instead of one',
+      tier: 4
+    },
+    'Veritas Opal Armor (Tier 4)': {
+      armorScore: 6,
+      majorThreshold: 13,
+      severeThreshold: 36,
+      evasionModifier: 0,
+      agilityModifier: 0,
+      feature: 'Truthseeking: This armor glows when another creature within Close range tells a lie',
+      tier: 4
+    },
+    'Savior Chainmail (Tier 4)': {
+      armorScore: 8,
+      majorThreshold: 18,
+      severeThreshold: 48,
+      evasionModifier: -1,
+      agilityModifier: -1,
+      feature: 'Difficult: -1 to all character traits and Evasion',
+      tier: 4
+    }
+  };
+
+  const communityDetails = {
+    'Highborne': {
+      feature: 'Privilege - You have advantage on rolls to consort with nobles, negotiate prices, or leverage your reputation to get what you want.',
+      traits: 'amiable, candid, conniving, enterprising, ostentatious, and unflappable',
+      description: 'Associated with elegance, opulence, and prestige. Possess significant material wealth and control political and economic status.'
+    },
+    'Loreborne': {
+      feature: 'Well-Read - You have advantage on rolls involving history, culture, or politics of prominent people and places.',
+      traits: 'direct, eloquent, inquisitive, patient, rhapsodic, and witty',
+      description: 'A society that values academic or political prowess with a focus on knowledge preservation, research, and intellectual pursuits.'
+    },
+    'Orderborne': {
+      feature: 'Dedicated - Record three personal sayings/values from upbringing. Once per rest, when embodying a principle, can roll a d20 as Hope Die.',
+      traits: 'ambitious, benevolent, pensive, prudent, sardonic, and stoic',
+      description: 'A collective focused on discipline, faith, and shared principles. They can mobilize populations effectively around common goals.'
+    },
+    'Ridgeborne': {
+      feature: 'Steady - You have advantage on rolls to traverse dangerous cliffs and ledges, navigate harsh environments, and use your survival knowledge.',
+      traits: 'bold, hardy, indomitable, loyal, reserved, and stubborn',
+      description: 'Live in mountainous regions with rocky peaks and sharp cliffs. Adaptable to difficult terrain and physically resilient.'
+    },
+    'Seaborne': {
+      feature: 'Know the Tide - Can sense life\'s "ebb and flow". Gain tokens when rolling with Fear. Can spend tokens for +1 bonus on action rolls.',
+      traits: 'candid, cooperative, exuberant, fierce, resolute, and weathered',
+      description: 'Live on or near large bodies of water. Skilled sailors and swimmers from birth who build ports and maritime communities.'
+    },
+    'Slyborne': {
+      feature: 'Scoundrel - You have advantage on rolls to negotiate with criminals, detect lies, or find a safe place to hide.',
+      traits: 'calculating, clever, formidable, perceptive, shrewd, and tenacious',
+      description: 'Operates outside the law. Includes criminals, grifters, and con artists with strict codes of honor.'
+    },
+    'Underborne': {
+      feature: 'Low-Light Living - When you\'re in an area with low light or heavy shadow, you have advantage on rolls to hide, investigate, or perceive details.',
+      traits: 'composed, elusive, indomitable, innovative, resourceful, and unpretentious',
+      description: 'Subterranean society living beneath cities and villages. Known for architectural and engineering skills.'
+    },
+    'Wanderborne': {
+      feature: 'Nomadic Pack - Add a Nomadic Pack to your inventory. Once per session, you can spend a Hope to reach into this pack and pull out a mundane item that\'s useful to your situation.',
+      traits: 'inscrutable, magnanimous, mirthful, reliable, savvy, and unorthodox',
+      description: 'Nomadic lifestyle, forgoing permanent homes. Value information, skills, and connections over material possessions.'
+    },
+    'Wildborne': {
+      feature: 'Lightfoot - Your movement is naturally silent. You have advantage on rolls to move without being heard.',
+      traits: 'hardy, loyal, nurturing, reclusive, sagacious, and vibrant',
+      description: 'Live deep within forests. Dedicated to conservation of homelands with strong cultural/religious ties to local fauna.'
+    }
+  };
 
   const conditionsList = [
     { name: 'Hidden', description: 'Out of sight from enemies, rolls against you have disadvantage' },
@@ -262,19 +626,21 @@ export default function App() {
     id,
     info: {
       name: '',
+      pronouns: '',
       ancestry: '',
       class: '',
       community: '',
+      armor: '',
       level: 1
     },
     stats: {
       hope: 2,
-      fear: 0,
       stress: 0,
       maxStress: 6,
-      hitPoints: 20,
-      maxHitPoints: 20,
+      hitPoints: 5,
+      maxHitPoints: 5,
       armorScore: 0,
+      armorSlots: 0,
       evasion: 10,
       majorThreshold: 11,
       severeThreshold: 16,
@@ -289,13 +655,16 @@ export default function App() {
       const saved = localStorage.getItem('daggerheart-characters');
       if (saved) {
         const data = JSON.parse(saved);
-        const migratedCharacters = (data.characters || [createNewCharacter(1)]).map(char => ({
-          ...char,
-          stats: {
-            ...char.stats,
-            conditions: char.stats.conditions || []
-          }
-        }));
+        const migratedCharacters = (data.characters || [createNewCharacter(1)]).map(char => {
+          const { fear, ...statsWithoutFear } = char.stats;
+          return {
+            ...char,
+            stats: {
+              ...statsWithoutFear,
+              conditions: char.stats.conditions || []
+            }
+          };
+        });
         return {
           characters: migratedCharacters,
           activeCharacterId: data.activeCharacterId || 1,
@@ -364,24 +733,73 @@ export default function App() {
     ));
 
     if (field === 'class' && value && classStats[value]) {
-      const confirmed = window.confirm('Do you want to prefill default values for this class? This will set Max Hit Points and Evasion to the class defaults.');
-      
-      if (confirmed) {
-        const stats = classStats[value];
-        setCharacters(prev => prev.map(char => 
-          char.id === activeCharacterId 
-            ? { 
-                ...char, 
-                stats: { 
-                  ...char.stats, 
-                  maxHitPoints: stats.hitPoints,
-                  hitPoints: stats.hitPoints,
-                  evasion: stats.evasion
-                }
+      const stats = classStats[value];
+      setCharacters(prev => prev.map(char => 
+        char.id === activeCharacterId 
+          ? { 
+              ...char, 
+              stats: { 
+                ...char.stats, 
+                maxHitPoints: stats.hitPoints,
+                hitPoints: stats.hitPoints,
+                evasion: stats.evasion
               }
-            : char
-        ));
-      }
+            }
+          : char
+      ));
+    }
+  };
+
+  const updateArmorInfo = (armorType) => {
+    if (!armorType) {
+      // Handle empty selection - set to no armor
+      setCharacters(prev => prev.map(char => {
+        if (char.id === activeCharacterId) {
+          const classEvasion = classStats[char.info.class]?.evasion || 10;
+          return {
+            ...char,
+            info: { ...char.info, armor: '' },
+            stats: {
+              ...char.stats,
+              armorScore: 0,
+              armorSlots: 0,
+              majorThreshold: 0,
+              severeThreshold: 0,
+              evasion: classEvasion
+            }
+          };
+        }
+        return char;
+      }));
+      return;
+    }
+    
+    const armor = armorDetails[armorType];
+    if (armor) {
+      setCharacters(prev => prev.map(char => {
+        if (char.id === activeCharacterId) {
+          // Calculate base evasion from class, then apply armor modifier
+          const classEvasion = classStats[char.info.class]?.evasion || 0;
+          const newEvasion = classEvasion + armor.evasionModifier;
+          
+          // Validate armor score doesn't exceed maximum of 12
+          const finalArmorScore = Math.min(12, armor.armorScore);
+          
+          return {
+            ...char,
+            info: { ...char.info, armor: armorType },
+            stats: {
+              ...char.stats,
+              armorScore: finalArmorScore,
+              armorSlots: 0, // Reset armor slots when armor changes
+              majorThreshold: armor.majorThreshold,
+              severeThreshold: armor.severeThreshold,
+              evasion: Math.max(0, newEvasion) // Don't allow negative evasion
+            }
+          };
+        }
+        return char;
+      }));
     }
   };
 
@@ -394,12 +812,12 @@ export default function App() {
       
       if (statName === 'hope') {
         finalValue = Math.min(6, newValue);
-      } else if (statName === 'fear') {
-        finalValue = Math.min(6, newValue);
       } else if (statName === 'stress') {
         finalValue = Math.min(char.stats.maxStress, newValue);
       } else if (statName === 'hitPoints') {
         finalValue = Math.min(char.stats.maxHitPoints, newValue);
+      } else if (statName === 'armorSlots') {
+        finalValue = Math.min(char.stats.armorScore, newValue);
       }
       
       return {
@@ -515,54 +933,6 @@ export default function App() {
     }
   };
 
-  const StatCard = ({ title, value, maxValue, icon: Icon, color, onIncrease, onDecrease, onDirectChange }) => (
-    <div className={`bg-white rounded-lg shadow-md p-4 border-l-4 ${color}`}>
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center space-x-2">
-          <Icon className="w-5 h-5" />
-          <h3 className="font-semibold text-gray-700">{title}</h3>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button 
-            onClick={onDecrease}
-            className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-          >
-            <Minus className="w-4 h-4" />
-          </button>
-          {onDirectChange ? (
-            <input 
-              type="number" 
-              value={value}
-              onChange={(e) => onDirectChange(parseInt(e.target.value) || 0)}
-              className="w-16 text-center border rounded px-2 py-1"
-            />
-          ) : (
-            <span className="text-xl font-bold w-16 text-center">
-              {value}{maxValue ? `/${maxValue}` : ''}
-            </span>
-          )}
-          <button 
-            onClick={onIncrease}
-            className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-      {maxValue && (
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className={`h-2 rounded-full transition-all duration-300 ${
-              title === 'Hope' ? 'bg-blue-500' :
-              title === 'Fear' ? 'bg-red-500' :
-              title === 'Hit Points' ? 'bg-green-500' : 'bg-gray-500'
-            }`}
-            style={{ width: `${(value / maxValue) * 100}%` }}
-          />
-        </div>
-      )}
-    </div>
-  );
 
   if (!activeCharacter) return null;
 
@@ -607,7 +977,7 @@ export default function App() {
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <input
               type="text"
               placeholder="Character Name"
@@ -615,6 +985,19 @@ export default function App() {
               onChange={(e) => updateCharacterInfo('name', e.target.value)}
               className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
+            <select
+              value={activeCharacter.info.pronouns}
+              onChange={(e) => updateCharacterInfo('pronouns', e.target.value)}
+              className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="">Pronouns</option>
+              <option value="they/them">they/them</option>
+              <option value="she/her">she/her</option>
+              <option value="he/him">he/him</option>
+              <option value="xe/xir">xe/xir</option>
+              <option value="ze/zir">ze/zir</option>
+              <option value="other">other</option>
+            </select>
             <select
               value={activeCharacter.info.ancestry}
               onChange={(e) => updateCharacterInfo('ancestry', e.target.value)}
@@ -637,7 +1020,7 @@ export default function App() {
             </select>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <select
               value={activeCharacter.info.community}
               onChange={(e) => updateCharacterInfo('community', e.target.value)}
@@ -648,40 +1031,74 @@ export default function App() {
                 <option key={community} value={community}>{community}</option>
               ))}
             </select>
-            <div className="flex items-center space-x-2">
-              <label className="font-semibold text-gray-700">Level:</label>
-              <input
-                type="number"
-                min="1"
-                value={activeCharacter.info.level}
-                onChange={(e) => updateCharacterInfo('level', parseInt(e.target.value) || 1)}
-                className="border rounded-lg px-3 py-2 w-20 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-            </div>
+            <select
+              value={activeCharacter.info.armor}
+              onChange={(e) => updateArmorInfo(e.target.value)}
+              className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="">Select Armor</option>
+              {Object.keys(armorDetails).filter(name => name !== 'None').map(armorName => (
+                <option key={armorName} value={armorName}>{armorName}</option>
+              ))}
+            </select>
+            <select
+              value={activeCharacter.info.level}
+              onChange={(e) => updateCharacterInfo('level', parseInt(e.target.value))}
+              className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              {Array.from({ length: 10 }, (_, i) => i + 1).map(level => (
+                <option key={level} value={level}>Level {level}</option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {((activeCharacter.info.class && classDetails[activeCharacter.info.class]) || (activeCharacter.info.ancestry && ancestryDetails[activeCharacter.info.ancestry])) && (
-          <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-600">
-                {showClassInfo ? 'Character Information' : 'Character Information'}
+                Character Information
               </h2>
-              <button
-                onClick={() => setShowClassInfo(!showClassInfo)}
-                className="text-gray-500 hover:text-gray-700 focus:outline-none"
-              >
-                {showClassInfo ? (
-                  <ChevronUp className="w-5 h-5" />
-                ) : (
-                  <ChevronDown className="w-5 h-5" />
-                )}
-              </button>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm text-gray-600">Armor:</span>
+                  <input
+                    type="number"
+                    value={activeCharacter.stats.armorScore}
+                    onChange={(e) => setStat('armorScore', e.target.value)}
+                    className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Zap className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm text-gray-600">Evasion:</span>
+                  <input
+                    type="number"
+                    value={activeCharacter.stats.evasion}
+                    onChange={(e) => setStat('evasion', e.target.value)}
+                    className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  />
+                </div>
+                <button
+                  onClick={() => setShowClassInfo(!showClassInfo)}
+                  className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                >
+                  {showClassInfo ? (
+                    <ChevronUp className="w-5 h-5" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
             </div>
             
             {showClassInfo && (
               <div className="space-y-6">
-                {activeCharacter.info.class && classDetails[activeCharacter.info.class] && (
+                {!activeCharacter.info.class && !activeCharacter.info.ancestry && !activeCharacter.info.community && !activeCharacter.info.armor ? (
+                  <p className="text-gray-500 text-center py-4">Please choose a class, ancestry, community, and armor</p>
+                ) : (
+                  <>
+                    {activeCharacter.info.class && classDetails[activeCharacter.info.class] && (
                   <div>
                     <h3 className="text-xl font-bold text-purple-700 mb-4">{activeCharacter.info.class}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -740,32 +1157,271 @@ export default function App() {
                       </div>
                     </div>
                   </div>
+                    )}
+                    
+                    {activeCharacter.info.community && communityDetails[activeCharacter.info.community] && (
+                      <div>
+                        <h3 className="text-xl font-bold text-orange-700 mb-4">{activeCharacter.info.community}</h3>
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold text-orange-600 mb-2">Community Feature</h4>
+                            <p className="text-gray-600 text-sm">{communityDetails[activeCharacter.info.community].feature}</p>
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-semibold text-gray-700 mb-2">Typical Traits</h4>
+                            <p className="text-gray-600 text-sm italic">{communityDetails[activeCharacter.info.community].traits}</p>
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-semibold text-gray-700 mb-2">Description</h4>
+                            <p className="text-gray-600 text-sm">{communityDetails[activeCharacter.info.community].description}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {activeCharacter.info.armor && armorDetails[activeCharacter.info.armor] && (
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-700 mb-4">{activeCharacter.info.armor}</h3>
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold text-gray-600 mb-2">Armor Feature</h4>
+                            <p className="text-gray-600 text-sm">{armorDetails[activeCharacter.info.armor].feature}</p>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <h4 className="font-semibold text-gray-700 mb-2">Armor Score</h4>
+                              <p className="text-gray-600 text-sm">{armorDetails[activeCharacter.info.armor].armorScore}</p>
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-gray-700 mb-2">Damage Thresholds</h4>
+                              <p className="text-gray-600 text-sm">{armorDetails[activeCharacter.info.armor].majorThreshold}/{armorDetails[activeCharacter.info.armor].severeThreshold}</p>
+                            </div>
+                          </div>
+                          
+                          {(armorDetails[activeCharacter.info.armor].evasionModifier !== 0 || armorDetails[activeCharacter.info.armor].agilityModifier !== 0) && (
+                            <div>
+                              <h4 className="font-semibold text-gray-700 mb-2">Modifiers</h4>
+                              <p className="text-gray-600 text-sm">
+                                {armorDetails[activeCharacter.info.armor].evasionModifier !== 0 && 
+                                  `Evasion: ${armorDetails[activeCharacter.info.armor].evasionModifier >= 0 ? '+' : ''}${armorDetails[activeCharacter.info.armor].evasionModifier}`}
+                                {armorDetails[activeCharacter.info.armor].evasionModifier !== 0 && armorDetails[activeCharacter.info.armor].agilityModifier !== 0 && ', '}
+                                {armorDetails[activeCharacter.info.armor].agilityModifier !== 0 && 
+                                  `Agility: ${armorDetails[activeCharacter.info.armor].agilityModifier >= 0 ? '+' : ''}${armorDetails[activeCharacter.info.armor].agilityModifier}`}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}
           </div>
-        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <StatCard
-            title="Hope"
-            value={activeCharacter.stats.hope}
-            maxValue={6}
-            icon={Heart}
-            color="border-blue-500"
-            onIncrease={() => updateStat('hope', 1)}
-            onDecrease={() => updateStat('hope', -1)}
-          />
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Heart className="w-5 h-5" />
+                  <h3 className="font-semibold text-gray-700">Hope</h3>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button 
+                    onClick={() => updateStat('hope', -1)}
+                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.hope}/6</span>
+                  <button 
+                    onClick={() => updateStat('hope', 1)}
+                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex gap-4 flex-wrap">
+                  {Array.from({ length: 6 }, (_, i) => i + 1).map(index => (
+                    <div
+                      key={index}
+                      onClick={() => updateStat('hope', index <= activeCharacter.stats.hope ? -1 : 1)}
+                      className={`w-6 h-6 cursor-pointer transition-all transform rotate-45 ${
+                        index <= activeCharacter.stats.hope
+                          ? 'bg-blue-500 border-blue-600'
+                          : 'bg-white border-gray-300 hover:border-blue-400'
+                      } border-2`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-gray-500">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-5 h-5" />
+                  <h3 className="font-semibold text-gray-700">Armor</h3>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button 
+                    onClick={() => updateStat('armorSlots', -1)}
+                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.armorSlots}/{activeCharacter.stats.armorScore}</span>
+                  <button 
+                    onClick={() => updateStat('armorSlots', 1)}
+                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex gap-2 flex-wrap">
+                  {Array.from({ length: activeCharacter.stats.armorScore }, (_, i) => i + 1).map(index => (
+                    <div
+                      key={index}
+                      onClick={() => updateStat('armorSlots', index <= activeCharacter.stats.armorSlots ? -1 : 1)}
+                      className={`w-6 h-6 cursor-pointer transition-all ${
+                        index <= activeCharacter.stats.armorSlots
+                          ? 'text-gray-600'
+                          : 'text-gray-300 hover:text-gray-500'
+                      }`}
+                    >
+                      <Shield className="w-full h-full" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
           
-          <StatCard
-            title="Fear"
-            value={activeCharacter.stats.fear}
-            maxValue={6}
-            icon={AlertTriangle}
-            color="border-red-500"
-            onIncrease={() => updateStat('fear', 1)}
-            onDecrease={() => updateStat('fear', -1)}
-          />
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Heart className="w-5 h-5" />
+                  <h3 className="font-semibold text-gray-700">Hit Points</h3>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button 
+                    onClick={() => updateStat('hitPoints', -1)}
+                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.hitPoints}/{activeCharacter.stats.maxHitPoints}</span>
+                  <button 
+                    onClick={() => updateStat('hitPoints', 1)}
+                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex gap-1 flex-wrap">
+                  {Array.from({ length: activeCharacter.stats.maxHitPoints }, (_, i) => i + 1).map(index => (
+                    <div
+                      key={index}
+                      onClick={() => updateStat('hitPoints', index <= activeCharacter.stats.hitPoints ? -1 : 1)}
+                      className={`w-8 h-8 cursor-pointer transition-all ${
+                        index <= activeCharacter.stats.hitPoints
+                          ? 'text-red-500'
+                          : 'text-gray-300 hover:text-red-400'
+                      }`}
+                    >
+                      <Heart 
+                        className="w-full h-full" 
+                        fill="currentColor" 
+                        stroke="none" 
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setStat('maxHitPoints', activeCharacter.stats.maxHitPoints + 1)}
+                  className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors ml-2"
+                  title="Add hit point slot"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+                {activeCharacter.stats.maxHitPoints > 1 && (
+                  <button
+                    onClick={() => setStat('maxHitPoints', Math.max(1, activeCharacter.stats.maxHitPoints - 1))}
+                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                    title="Remove hit point slot"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-yellow-500">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Brain className="w-5 h-5" />
+                  <h3 className="font-semibold text-gray-700">Stress</h3>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button 
+                    onClick={() => updateStat('stress', -1)}
+                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.stress}/{activeCharacter.stats.maxStress}</span>
+                  <button 
+                    onClick={() => updateStat('stress', 1)}
+                    className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex gap-2 flex-wrap">
+                  {Array.from({ length: activeCharacter.stats.maxStress }, (_, i) => i + 1).map(index => (
+                    <div
+                      key={index}
+                      onClick={() => updateStat('stress', index <= activeCharacter.stats.stress ? -1 : 1)}
+                      className={`w-8 h-8 border-2 rounded cursor-pointer transition-all ${
+                        index <= activeCharacter.stats.stress
+                          ? 'bg-yellow-500 border-yellow-600'
+                          : 'bg-white border-gray-300 hover:border-yellow-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={() => setStat('maxStress', activeCharacter.stats.maxStress + 1)}
+                  className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors ml-2"
+                  title="Add stress marker"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+                {activeCharacter.stats.maxStress > 6 && (
+                  <button
+                    onClick={() => setStat('maxStress', Math.max(6, activeCharacter.stats.maxStress - 1))}
+                    className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                    title="Remove stress marker"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-orange-500 mb-6">
@@ -824,100 +1480,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <StatCard
-            title="Hit Points"
-            value={activeCharacter.stats.hitPoints}
-            maxValue={activeCharacter.stats.maxHitPoints}
-            icon={Heart}
-            color="border-green-500"
-            onIncrease={() => updateStat('hitPoints', 1)}
-            onDecrease={() => updateStat('hitPoints', -1)}
-          />
-          
-          <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-yellow-500">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-2">
-                <Brain className="w-5 h-5" />
-                <h3 className="font-semibold text-gray-700">Stress</h3>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button 
-                  onClick={() => updateStat('stress', -1)}
-                  className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.stress}/{activeCharacter.stats.maxStress}</span>
-                <button 
-                  onClick={() => updateStat('stress', 1)}
-                  className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2 items-center">
-              <div className="flex gap-2 flex-wrap">
-                {Array.from({ length: activeCharacter.stats.maxStress }, (_, i) => i + 1).map(index => (
-                  <div
-                    key={index}
-                    onClick={() => updateStat('stress', index <= activeCharacter.stats.stress ? -1 : 1)}
-                    className={`w-8 h-8 border-2 rounded cursor-pointer transition-all ${
-                      index <= activeCharacter.stats.stress
-                        ? 'bg-yellow-500 border-yellow-600'
-                        : 'bg-white border-gray-300 hover:border-yellow-400'
-                    }`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setStat('maxStress', activeCharacter.stats.maxStress + 1)}
-                className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors ml-2"
-                title="Add stress marker"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-              {activeCharacter.stats.maxStress > 6 && (
-                <button
-                  onClick={() => setStat('maxStress', Math.max(6, activeCharacter.stats.maxStress - 1))}
-                  className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                  title="Remove stress marker"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
-            <div className="flex items-center space-x-2 mb-2">
-              <Shield className="w-5 h-5" />
-              <h3 className="font-semibold text-gray-700">Armor Score</h3>
-            </div>
-            <input
-              type="number"
-              value={activeCharacter.stats.armorScore}
-              onChange={(e) => setStat('armorScore', e.target.value)}
-              className="w-full text-center border rounded px-2 py-1 text-xl font-bold"
-            />
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-purple-500">
-            <div className="flex items-center space-x-2 mb-2">
-              <Zap className="w-5 h-5" />
-              <h3 className="font-semibold text-gray-700">Evasion</h3>
-            </div>
-            <input
-              type="number"
-              value={activeCharacter.stats.evasion}
-              onChange={(e) => setStat('evasion', e.target.value)}
-              className="w-full text-center border rounded px-2 py-1 text-xl font-bold"
-            />
-          </div>
-        </div>
 
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">Experiences</h3>
