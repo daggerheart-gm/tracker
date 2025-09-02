@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/daggerheart-tracker/static/css/main.e6c13ad2.css",
+    "main.js": "/daggerheart-tracker/static/js/main.5bb8b7e0.js",
+    "index.html": "/daggerheart-tracker/index.html",
+    "main.e6c13ad2.css.map": "/daggerheart-tracker/static/css/main.e6c13ad2.css.map",
+    "main.5bb8b7e0.js.map": "/daggerheart-tracker/static/js/main.5bb8b7e0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.5bb8b7e0.js"
+  ]
+}
