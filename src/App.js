@@ -96,6 +96,12 @@ export default function App() {
     'Highborne', 'Loreborne', 'Orderborne', 'Ridgeborne', 'Seaborne', 'Slyborne', 'Underborne', 'Wanderborne', 'Wildborne'
   ];
 
+  const conditionsList = [
+    { name: 'Hidden', description: 'Out of sight from enemies, rolls against you have disadvantage' },
+    { name: 'Restrained', description: 'Cannot move, but can take actions from current position' },
+    { name: 'Vulnerable', description: 'All rolls targeting you have advantage' }
+  ];
+
   const createNewCharacter = (id) => ({
     id,
     info: {
@@ -116,7 +122,8 @@ export default function App() {
       evasion: 10,
       majorThreshold: 11,
       severeThreshold: 16,
-      experiences: []
+      experiences: [],
+      conditions: []
     }
   });
 
@@ -126,8 +133,15 @@ export default function App() {
       const saved = localStorage.getItem('daggerheart-characters');
       if (saved) {
         const data = JSON.parse(saved);
+        const migratedCharacters = (data.characters || [createNewCharacter(1)]).map(char => ({
+          ...char,
+          stats: {
+            ...char.stats,
+            conditions: char.stats.conditions || []
+          }
+        }));
         return {
-          characters: data.characters || [createNewCharacter(1)],
+          characters: migratedCharacters,
           activeCharacterId: data.activeCharacterId || 1,
           nextId: data.nextId || 2
         };
@@ -242,6 +256,22 @@ export default function App() {
         ? { ...char, stats: { ...char.stats, experiences: char.stats.experiences.filter((_, i) => i !== index) } }
         : char
     ));
+  };
+
+  const toggleCondition = (conditionName) => {
+    setCharacters(prev => prev.map(char => {
+      if (char.id !== activeCharacterId) return char;
+      
+      const hasCondition = char.stats.conditions.includes(conditionName);
+      const newConditions = hasCondition
+        ? char.stats.conditions.filter(c => c !== conditionName)
+        : [...char.stats.conditions, conditionName];
+      
+      return {
+        ...char,
+        stats: { ...char.stats, conditions: newConditions }
+      };
+    }));
   };
 
   const getCharacterDisplayName = (character) => {
@@ -662,6 +692,44 @@ export default function App() {
               <p className="text-gray-500 text-center py-4">No experiences yet. Add some as you play!</p>
             )}
           </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-6 mt-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Conditions</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {conditionsList.map((condition) => {
+              const isActive = activeCharacter.stats.conditions.includes(condition.name);
+              return (
+                <div key={condition.name} className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id={`condition-${condition.name}`}
+                    checked={isActive}
+                    onChange={() => toggleCondition(condition.name)}
+                    className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor={`condition-${condition.name}`} className="flex-1 cursor-pointer">
+                    <div className={`font-medium ${isActive ? 'text-purple-700' : 'text-gray-700'}`}>
+                      {condition.name}
+                    </div>
+                    <div className="text-sm text-gray-500 mt-1">
+                      {condition.description}
+                    </div>
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+          
+          {activeCharacter.stats.conditions.length > 0 && (
+            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <div className="text-sm font-medium text-yellow-800 mb-1">Active Conditions:</div>
+              <div className="text-sm text-yellow-700">
+                {activeCharacter.stats.conditions.join(', ')}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-4 mt-6">
