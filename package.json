@@ -11,7 +11,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node set-version.js && react-scripts build",
+    "version": "node set-version.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },

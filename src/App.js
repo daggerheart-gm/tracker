@@ -88,6 +88,14 @@ const ChevronUp = ({ className }) => (
   </svg>
 );
 
+// Generate version info
+const getVersionInfo = () => {
+  const buildDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+  const commitHash = process.env.REACT_APP_GIT_SHA || 'dev';
+  const shortHash = commitHash.substring(0, 7);
+  return `v${buildDate}-${shortHash}`;
+};
+
 export default function App() {
 
 
@@ -1178,6 +1186,9 @@ export default function App() {
                 daggerheart.com
               </a>
               . There are no previous modifications by others.
+            </div>
+            <div className="text-xs text-gray-400 mt-4 pt-2 border-t">
+              Character Tracker {getVersionInfo()}
             </div>
           </div>
         </div>
