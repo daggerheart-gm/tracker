@@ -596,55 +596,65 @@ export default function App() {
               </button>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-blue-600" />
-                <span className="text-sm text-gray-600">Armor:</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm text-gray-600 font-medium">Armor:</span>
+                </div>
                 <input
                   type="number"
                   value={activeCharacter.stats.armorScore}
                   onChange={(e) => setStat('armorScore', e.target.value)}
-                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  className="w-16 text-center border rounded px-2 py-1 text-sm font-bold"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <Zap className="w-4 h-4 text-purple-600" />
-                <span className="text-sm text-gray-600">Evasion:</span>
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Zap className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm text-gray-600 font-medium">Evasion:</span>
+                </div>
                 <input
                   type="number"
                   value={activeCharacter.stats.evasion}
                   onChange={(e) => setStat('evasion', e.target.value)}
-                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  className="w-16 text-center border rounded px-2 py-1 text-sm font-bold"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <Heart className="w-4 h-4 text-red-600" />
-                <span className="text-sm text-gray-600">Max HP:</span>
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Heart className="w-4 h-4 text-red-600" />
+                  <span className="text-sm text-gray-600 font-medium">Max HP:</span>
+                </div>
                 <input
                   type="number"
                   value={activeCharacter.stats.maxHitPoints}
                   onChange={(e) => setStat('maxHitPoints', e.target.value)}
-                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  className="w-16 text-center border rounded px-2 py-1 text-sm font-bold"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <Brain className="w-4 h-4 text-yellow-600" />
-                <span className="text-sm text-gray-600">Max Stress:</span>
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Brain className="w-4 h-4 text-yellow-600" />
+                  <span className="text-sm text-gray-600 font-medium">Max Stress:</span>
+                </div>
                 <input
                   type="number"
                   value={activeCharacter.stats.maxStress}
                   onChange={(e) => setStat('maxStress', e.target.value)}
-                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  className="w-16 text-center border rounded px-2 py-1 text-sm font-bold"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <Heart className="w-4 h-4 text-blue-600" />
-                <span className="text-sm text-gray-600">Max Hope:</span>
+              <div className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Heart className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm text-gray-600 font-medium">Max Hope:</span>
+                </div>
                 <input
                   type="number"
                   value={activeCharacter.stats.maxHope}
                   onChange={(e) => setStat('maxHope', e.target.value)}
-                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                  className="w-16 text-center border rounded px-2 py-1 text-sm font-bold"
                 />
               </div>
             </div>
