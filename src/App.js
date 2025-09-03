@@ -1044,6 +1044,44 @@ export default function App() {
             />
           </div>
         </div>
+
+        <div className="bg-white rounded-lg shadow-md p-4 mt-6">
+          <div className="text-center text-sm text-gray-600 space-y-2">
+            <div className="font-medium">Daggerheart™ Compatible</div>
+            <div>
+              This app includes materials from the{' '}
+              <a 
+                href="https://www.daggerheart.com/srd/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:text-purple-800 underline"
+              >
+                Daggerheart System Reference Document 1.0
+              </a>
+              {' '}© Critical Role, LLC. under the terms of the{' '}
+              <a
+                href="https://darringtonpress.com/license/"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:text-purple-800 underline"
+              >
+                Darrington Press Community Gaming (DPCGL) License
+              </a>{' '}.
+            </div>
+            <div>
+              More information can be found at{' '}
+              <a 
+                href="https://www.daggerheart.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:text-purple-800 underline"
+              >
+                daggerheart.com
+              </a>
+              . There are no previous modifications by others.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
