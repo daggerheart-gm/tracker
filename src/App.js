@@ -120,7 +120,8 @@ export default function App() {
       majorThreshold: 11,
       severeThreshold: 16,
       experiences: [],
-      conditions: []
+      conditions: [],
+      notes: []
     }
   });
 
@@ -136,7 +137,8 @@ export default function App() {
             ...char,
             stats: {
               ...statsWithoutFear,
-              conditions: char.stats.conditions || []
+              conditions: char.stats.conditions || [],
+              notes: char.stats.notes || []
             }
           };
         });
@@ -161,6 +163,7 @@ export default function App() {
   const [activeCharacterId, setActiveCharacterId] = useState(savedData.activeCharacterId);
   const [nextId, setNextId] = useState(savedData.nextId);
   const [newExperience, setNewExperience] = useState('');
+  const [newNote, setNewNote] = useState('');
   const [showClassInfo, setShowClassInfo] = useState(false);
 
   const activeCharacter = characters.find(char => char.id === activeCharacterId);
@@ -325,6 +328,47 @@ export default function App() {
     setCharacters(prev => prev.map(char => 
       char.id === activeCharacterId 
         ? { ...char, stats: { ...char.stats, experiences: char.stats.experiences.filter((_, i) => i !== index) } }
+        : char
+    ));
+  };
+
+  const addNote = () => {
+    if (newNote.trim()) {
+      const now = new Date();
+      const localTimestamp = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      const noteWithTimestamp = {
+        text: newNote.trim(),
+        timestamp: localTimestamp // Format for datetime-local input in local timezone
+      };
+      setCharacters(prev => prev.map(char => 
+        char.id === activeCharacterId 
+          ? { ...char, stats: { ...char.stats, notes: [...char.stats.notes, noteWithTimestamp] } }
+          : char
+      ));
+      setNewNote('');
+    }
+  };
+
+  const removeNote = (index) => {
+    setCharacters(prev => prev.map(char => 
+      char.id === activeCharacterId 
+        ? { ...char, stats: { ...char.stats, notes: char.stats.notes.filter((_, i) => i !== index) } }
+        : char
+    ));
+  };
+
+  const updateNoteTimestamp = (index, newTimestamp) => {
+    setCharacters(prev => prev.map(char => 
+      char.id === activeCharacterId 
+        ? { 
+            ...char, 
+            stats: { 
+              ...char.stats, 
+              notes: char.stats.notes.map((note, i) => 
+                i === index ? { ...note, timestamp: newTimestamp } : note
+              )
+            }
+          }
         : char
     ));
   };
@@ -964,6 +1008,57 @@ export default function App() {
             ))}
             {activeCharacter.stats.experiences.length === 0 && (
               <p className="text-gray-500 text-center py-4">No experiences yet. Add some as you play!</p>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-6 mt-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Notes</h3>
+          
+          <div className="flex flex-col space-y-2 mb-4">
+            <textarea
+              placeholder="Add new note..."
+              value={newNote}
+              onChange={(e) => setNewNote(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && e.ctrlKey && addNote()}
+              rows="3"
+              className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-y min-h-[80px]"
+            />
+            <button
+              onClick={addNote}
+              className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors self-end w-full sm:w-auto"
+            >
+              Add
+            </button>
+          </div>
+          
+          <div className="space-y-2">
+            {activeCharacter.stats.notes.map((note, index) => (
+              <div key={index} className="bg-gray-50 p-3 rounded">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-800 whitespace-pre-wrap">{note.text}</div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="datetime-local"
+                      value={note.timestamp}
+                      onChange={(e) => updateNoteTimestamp(index, e.target.value)}
+                      className="text-xs border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                    />
+                    <button
+                      onClick={() => removeNote(index)}
+                      className="text-red-500 hover:text-red-700 p-1"
+                      title="Remove note"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {activeCharacter.stats.notes.length === 0 && (
+              <p className="text-gray-500 text-center py-4">No notes yet. Add some to track your character's journey!</p>
             )}
           </div>
         </div>
