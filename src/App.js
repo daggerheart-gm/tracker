@@ -115,6 +115,7 @@ export default function App() {
     },
     stats: {
       hope: 2,
+      maxHope: 6,
       stress: 0,
       maxStress: 6,
       hitPoints: 5,
@@ -291,7 +292,7 @@ export default function App() {
       let finalValue = newValue;
       
       if (statName === 'hope') {
-        finalValue = Math.min(6, newValue);
+        finalValue = Math.min(char.stats.maxHope, newValue);
       } else if (statName === 'stress') {
         finalValue = Math.min(char.stats.maxStress, newValue);
       } else if (statName === 'hitPoints') {
@@ -420,11 +421,17 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-center text-gray-800 mb-6 flex items-center justify-center space-x-2">
-            <Dagger className="w-8 h-8 text-gray-600" />
-            <Heart className="w-8 h-8 text-red-500" fill="currentColor" stroke="none" />
-            <span>Daggerheart Character Tracker</span>
-          </h1>
+          <div className="flex items-center justify-between mb-6">
+            <img 
+              src={process.env.PUBLIC_URL + '/logo.svg'}
+              alt="Daggerheart Logo" 
+              className="h-16 w-auto"
+            />
+            <h1 className="text-3xl font-bold text-gray-800 flex-1 text-center">
+              Daggerheart Character Tracker
+            </h1>
+            <div className="w-16 h-16"></div>
+          </div>
           
           <div className="flex flex-wrap items-center gap-2 mb-6 border-b">
             {characters.map(char => (
@@ -539,37 +546,68 @@ export default function App() {
               <h2 className="text-lg font-semibold text-gray-600">
                 Character Information
               </h2>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <Shield className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm text-gray-600">Armor:</span>
-                  <input
-                    type="number"
-                    value={activeCharacter.stats.armorScore}
-                    onChange={(e) => setStat('armorScore', e.target.value)}
-                    className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Zap className="w-4 h-4 text-purple-600" />
-                  <span className="text-sm text-gray-600">Evasion:</span>
-                  <input
-                    type="number"
-                    value={activeCharacter.stats.evasion}
-                    onChange={(e) => setStat('evasion', e.target.value)}
-                    className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
-                  />
-                </div>
-                <button
-                  onClick={() => setShowClassInfo(!showClassInfo)}
-                  className="text-gray-500 hover:text-gray-700 focus:outline-none"
-                >
-                  {showClassInfo ? (
-                    <ChevronUp className="w-5 h-5" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5" />
-                  )}
-                </button>
+              <button
+                onClick={() => setShowClassInfo(!showClassInfo)}
+                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {showClassInfo ? (
+                  <ChevronUp className="w-5 h-5" />
+                ) : (
+                  <ChevronDown className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+              <div className="flex items-center space-x-2">
+                <Shield className="w-4 h-4 text-blue-600" />
+                <span className="text-sm text-gray-600">Armor:</span>
+                <input
+                  type="number"
+                  value={activeCharacter.stats.armorScore}
+                  onChange={(e) => setStat('armorScore', e.target.value)}
+                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Zap className="w-4 h-4 text-purple-600" />
+                <span className="text-sm text-gray-600">Evasion:</span>
+                <input
+                  type="number"
+                  value={activeCharacter.stats.evasion}
+                  onChange={(e) => setStat('evasion', e.target.value)}
+                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Heart className="w-4 h-4 text-red-600" />
+                <span className="text-sm text-gray-600">Max HP:</span>
+                <input
+                  type="number"
+                  value={activeCharacter.stats.maxHitPoints}
+                  onChange={(e) => setStat('maxHitPoints', e.target.value)}
+                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Brain className="w-4 h-4 text-yellow-600" />
+                <span className="text-sm text-gray-600">Max Stress:</span>
+                <input
+                  type="number"
+                  value={activeCharacter.stats.maxStress}
+                  onChange={(e) => setStat('maxStress', e.target.value)}
+                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Heart className="w-4 h-4 text-blue-600" />
+                <span className="text-sm text-gray-600">Max Hope:</span>
+                <input
+                  type="number"
+                  value={activeCharacter.stats.maxHope}
+                  onChange={(e) => setStat('maxHope', e.target.value)}
+                  className="w-12 text-center border rounded px-1 py-0.5 text-sm font-bold"
+                />
               </div>
             </div>
             
@@ -712,12 +750,12 @@ export default function App() {
                   <h3 className="font-semibold text-gray-700">Hope</h3>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.hope}/6</span>
+                  <span className="text-xl font-bold w-16 text-center">{activeCharacter.stats.hope}/{activeCharacter.stats.maxHope}</span>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-2 items-center">
+              <div className="flex flex-wrap gap-2 items-center mb-4">
                 <div className="flex gap-4 flex-wrap">
-                  {Array.from({ length: 6 }, (_, i) => i + 1).map(index => (
+                  {Array.from({ length: activeCharacter.stats.maxHope }, (_, i) => i + 1).map(index => (
                     <div
                       key={index}
                       onClick={() => updateStat('hope', index <= activeCharacter.stats.hope ? -1 : 1)}
@@ -730,6 +768,21 @@ export default function App() {
                   ))}
                 </div>
               </div>
+              {activeCharacter.info.class && classDetails[activeCharacter.info.class] && (
+                <button
+                  onClick={() => updateStat('hope', -3)}
+                  disabled={activeCharacter.stats.hope < 3}
+                  className={`w-full px-3 py-2 text-xs rounded-lg font-medium transition-colors text-left ${
+                    activeCharacter.stats.hope >= 3
+                      ? 'bg-purple-500 text-white hover:bg-purple-600'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                  title={classDetails[activeCharacter.info.class].hopeFeature}
+                >
+                  <div className="font-bold mb-1">Use Hope Feature (3 Hope)</div>
+                  <div className="text-xs opacity-90">{classDetails[activeCharacter.info.class].hopeFeature}</div>
+                </button>
+              )}
             </div>
             
             <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-gray-500">
