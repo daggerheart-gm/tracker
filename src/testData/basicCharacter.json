@@ -1,0 +1,36 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "info": {
+        "name": "Thorin Ironforge",
+        "pronouns": "he/him",
+        "ancestry": "Dwarf",
+        "class": "Guardian",
+        "community": "",
+        "armor": "",
+        "level": 1
+      },
+      "stats": {
+        "hope": 2,
+        "maxHope": 6,
+        "stress": 0,
+        "maxStress": 6,
+        "hitPoints": 7,
+        "maxHitPoints": 7,
+        "armorScore": 0,
+        "armorSlots": 0,
+        "evasion": 9,
+        "majorThreshold": 11,
+        "severeThreshold": 16,
+        "experiences": [],
+        "conditions": [],
+        "notes": []
+      }
+    }
+  ],
+  "activeCharacterId": 1,
+  "nextId": 2,
+  "version": "1.0",
+  "timestamp": "2025-01-03T12:00:00.000Z"
+}

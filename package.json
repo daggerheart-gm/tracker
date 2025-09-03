@@ -12,6 +12,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "node set-version.js && react-scripts build",
+    "test": "react-scripts test",
+    "test:validation": "node -e \"require('./src/utils/dataValidation.test.js').runDataValidationTests()\"",
     "version": "node set-version.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"

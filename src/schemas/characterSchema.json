@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://daggerheart-tracker.com/schemas/character.json",
+  "title": "Daggerheart Character Data",
+  "description": "Schema for Daggerheart character tracker data",
+  "type": "object",
+  "properties": {
+    "characters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/character"
+      },
+      "minItems": 1
+    },
+    "activeCharacterId": {
+      "type": "number",
+      "minimum": 1
+    },
+    "nextId": {
+      "type": "number",
+      "minimum": 2
+    },
+    "version": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["characters", "activeCharacterId", "nextId"],
+  "additionalProperties": false,
+  "definitions": {
+    "character": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "minimum": 1
+        },
+        "info": {
+          "$ref": "#/definitions/characterInfo"
+        },
+        "stats": {
+          "$ref": "#/definitions/characterStats"
+        }
+      },
+      "required": ["id", "info", "stats"],
+      "additionalProperties": false
+    },
+    "characterInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "pronouns": {
+          "type": "string",
+          "enum": ["", "they/them", "she/her", "he/him", "xe/xir", "ze/zir", "other"]
+        },
+        "ancestry": {
+          "type": "string",
+          "enum": ["", "Clank", "Drakona", "Dwarf", "Elf", "Faerie", "Faun", "Firbolg", "Fungril", "Galapa", "Giant", "Goblin", "Halfling", "Human", "Infernis", "Katari", "Orc", "Ribbet", "Simiah"]
+        },
+        "class": {
+          "type": "string",
+          "enum": ["", "Bard", "Druid", "Guardian", "Ranger", "Rogue", "Seraph", "Sorcerer", "Warrior", "Wizard"]
+        },
+        "community": {
+          "type": "string"
+        },
+        "armor": {
+          "type": "string"
+        },
+        "level": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "required": ["name", "pronouns", "ancestry", "class", "community", "armor", "level"],
+      "additionalProperties": false
+    },
+    "characterStats": {
+      "type": "object",
+      "properties": {
+        "hope": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "maxHope": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "stress": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "maxStress": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "hitPoints": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "maxHitPoints": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "armorScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "armorSlots": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "evasion": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "majorThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "severeThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50
+        },
+        "experiences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/note"
+          }
+        }
+      },
+      "required": ["hope", "maxHope", "stress", "maxStress", "hitPoints", "maxHitPoints", "armorScore", "armorSlots", "evasion", "majorThreshold", "severeThreshold", "experiences", "conditions", "notes"],
+      "additionalProperties": false
+    },
+    "note": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timestamp": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$"
+        }
+      },
+      "required": ["text", "timestamp"],
+      "additionalProperties": false
+    }
+  }
+}

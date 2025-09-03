@@ -1,0 +1,85 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "info": {
+        "name": "Zara Nightblade",
+        "pronouns": "they/them",
+        "ancestry": "Faerie",
+        "class": "Rogue",
+        "community": "The Shadow Market",
+        "armor": "Studded Leather",
+        "level": 3
+      },
+      "stats": {
+        "hope": 3,
+        "maxHope": 6,
+        "stress": 1,
+        "maxStress": 7,
+        "hitPoints": 6,
+        "maxHitPoints": 6,
+        "armorScore": 3,
+        "armorSlots": 0,
+        "evasion": 14,
+        "majorThreshold": 14,
+        "severeThreshold": 19,
+        "experiences": [
+          "Lockpicking",
+          "Sneaking"
+        ],
+        "conditions": [],
+        "notes": [
+          {
+            "text": "Successfully infiltrated the merchant's warehouse. Found evidence of smuggling operation.",
+            "timestamp": "2025-01-01T23:45"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "info": {
+        "name": "Brother Marcus",
+        "pronouns": "he/him",
+        "ancestry": "Human",
+        "class": "Seraph",
+        "community": "Temple of the Dawn",
+        "armor": "Chain Mail",
+        "level": 4
+      },
+      "stats": {
+        "hope": 5,
+        "maxHope": 6,
+        "stress": 0,
+        "maxStress": 7,
+        "hitPoints": 6,
+        "maxHitPoints": 7,
+        "armorScore": 4,
+        "armorSlots": 2,
+        "evasion": 8,
+        "majorThreshold": 15,
+        "severeThreshold": 20,
+        "experiences": [
+          "Divine Healing",
+          "Religious Knowledge",
+          "Inspiring Leadership"
+        ],
+        "conditions": ["Blessed"],
+        "notes": [
+          {
+            "text": "Received a vision from the Dawn Goddess. She warns of a great darkness approaching from the north.",
+            "timestamp": "2025-01-03T06:00"
+          },
+          {
+            "text": "Successfully healed the injured villagers from the goblin attack. Used 2 Prayer Dice.",
+            "timestamp": "2025-01-03T10:30"
+          }
+        ]
+      }
+    }
+  ],
+  "activeCharacterId": 2,
+  "nextId": 3,
+  "version": "1.0",
+  "timestamp": "2025-01-03T12:00:00.000Z"
+}

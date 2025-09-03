@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "info": {
+        "name": "Old Character",
+        "pronouns": "she/her",
+        "ancestry": "Halfling",
+        "class": "Bard",
+        "community": "",
+        "armor": "",
+        "level": 2
+      },
+      "stats": {
+        "hope": 1,
+        "stress": 3,
+        "maxStress": 6,
+        "hitPoints": 4,
+        "maxHitPoints": 5,
+        "armorScore": 0,
+        "armorSlots": 0,
+        "evasion": 10,
+        "majorThreshold": 11,
+        "severeThreshold": 16,
+        "experiences": ["Singing", "Storytelling"],
+        "conditions": ["Afraid"]
+      }
+    }
+  ],
+  "activeCharacterId": 1,
+  "nextId": 2
+}

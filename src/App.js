@@ -7,6 +7,7 @@ import { classOptions, classStats, classDetails } from './data/classData';
 import { ancestryOptions, ancestryDetails } from './data/ancestryData';
 import { communityOptions, communityDetails } from './data/communityData';
 import { conditionsList } from './data/gameData';
+import { sanitizeCharacterData } from './utils/dataValidation';
 
 // Heart, Shield, Zap, Brain, Eye, AlertTriangle, Plus, Minus, X, Users icons as SVG components
 const Heart = ({ className, fill = "currentColor", stroke = "currentColor" }) => (
@@ -428,17 +429,37 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const data = JSON.parse(e.target.result);
+        const rawData = JSON.parse(e.target.result);
         
-        if (data.characters && Array.isArray(data.characters)) {
+        // Validate and sanitize the data
+        const validationResult = sanitizeCharacterData(rawData);
+        
+        if (validationResult.valid) {
+          const data = validationResult.data;
           setCharacters(data.characters);
           setActiveCharacterId(data.activeCharacterId || data.characters[0]?.id || 1);
           setNextId(data.nextId || Math.max(...data.characters.map(c => c.id)) + 1);
+          
+          console.log('✅ Character data loaded and validated successfully');
         } else {
-          alert('Invalid file format. Please select a valid Daggerheart character file.');
+          console.error('❌ Data validation failed:', validationResult.errors);
+          
+          // Try to load anyway with basic validation for legacy support
+          if (rawData.characters && Array.isArray(rawData.characters)) {
+            console.warn('⚠️ Loading with legacy validation...');
+            setCharacters(rawData.characters);
+            setActiveCharacterId(rawData.activeCharacterId || rawData.characters[0]?.id || 1);
+            setNextId(rawData.nextId || Math.max(...rawData.characters.map(c => c.id)) + 1);
+            
+            alert('File loaded with warnings. Some data may have been migrated to the current format.');
+          } else {
+            alert('Invalid file format. Please select a valid Daggerheart character file.\n\nValidation errors:\n' + 
+                  validationResult.errors.slice(0, 3).join('\n'));
+          }
         }
       } catch (error) {
-        alert('Error loading file. Please make sure it\'s a valid JSON file.');
+        console.error('File loading error:', error);
+        alert('Error loading file. Please make sure it\'s a valid JSON file.\n\nError: ' + error.message);
       }
     };
     reader.readAsText(file);

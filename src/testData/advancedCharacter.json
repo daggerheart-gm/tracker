@@ -1,0 +1,50 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "info": {
+        "name": "Lyralei Moonwhisper",
+        "pronouns": "she/her",
+        "ancestry": "Elf",
+        "class": "Ranger",
+        "community": "The Whispering Woods",
+        "armor": "Leather Armor",
+        "level": 5
+      },
+      "stats": {
+        "hope": 4,
+        "maxHope": 8,
+        "stress": 2,
+        "maxStress": 8,
+        "hitPoints": 5,
+        "maxHitPoints": 8,
+        "armorScore": 2,
+        "armorSlots": 1,
+        "evasion": 13,
+        "majorThreshold": 13,
+        "severeThreshold": 18,
+        "experiences": [
+          "Expert Tracker",
+          "Forest Navigation",
+          "Animal Whisperer",
+          "Stealth in Natural Environments"
+        ],
+        "conditions": ["Focused"],
+        "notes": [
+          {
+            "text": "Found mysterious tracks near the old oak. Something large passed through here recently.",
+            "timestamp": "2025-01-02T14:30"
+          },
+          {
+            "text": "Made contact with the wolf pack. They seem agitated about something in the deeper woods.\n\nNeed to investigate tomorrow at dawn.",
+            "timestamp": "2025-01-02T20:15"
+          }
+        ]
+      }
+    }
+  ],
+  "activeCharacterId": 1,
+  "nextId": 2,
+  "version": "1.0",
+  "timestamp": "2025-01-03T12:00:00.000Z"
+}
