@@ -415,16 +415,16 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
             <img 
               src={process.env.PUBLIC_URL + '/logo.svg'}
               alt="Daggerheart Logo" 
-              className="h-16 w-auto"
+              className="h-16 w-auto mx-auto sm:mx-0"
             />
-            <h1 className="text-3xl font-bold text-gray-800 flex-1 text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center sm:flex-1">
               Daggerheart Character Tracker
             </h1>
-            <div className="w-16 h-16"></div>
+            <div className="hidden sm:block w-16 h-16"></div>
           </div>
           
           <div className="flex flex-wrap items-center gap-2 mb-6 border-b">
@@ -933,7 +933,7 @@ export default function App() {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">Experiences</h3>
           
-          <div className="flex space-x-2 mb-4">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mb-4">
             <input
               type="text"
               placeholder="Add new experience..."
@@ -944,7 +944,7 @@ export default function App() {
             />
             <button
               onClick={addExperience}
-              className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+              className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors w-full sm:w-auto"
             >
               Add
             </button>
@@ -1007,24 +1007,24 @@ export default function App() {
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-4 mt-6">
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
             <button
               onClick={saveData}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"
+              className="px-4 sm:px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-2"
             >
               <Save className="w-5 h-5" />
               <span>Export Data</span>
             </button>
             <button
               onClick={() => document.getElementById('loadFile').click()}
-              className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-2"
+              className="px-4 sm:px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center justify-center space-x-2"
             >
               <Upload className="w-5 h-5" />
               <span>Import Data</span>
             </button>
             <button
               onClick={resetAllData}
-              className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"
+              className="px-4 sm:px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
             >
               <Trash className="w-5 h-5" />
               <span>Reset Tracker</span>
@@ -1060,7 +1060,7 @@ export default function App() {
                 className="text-purple-600 hover:text-purple-800 underline"
               >
                 Darrington Press Community Gaming (DPCGL) License
-              </a>{' '}.
+              </a>.
             </div>
             <div>
               More information can be found at{' '}
